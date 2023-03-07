@@ -5,6 +5,8 @@ import json
 import os
 import re
 
+# TODO
+# get a random 5 second clip and extract the audio for channel alerts 
 
 API_KEY=os.environ['API_KEY_PEEP']
 CHANNEL_ID='UC8MbwfzshpM4T4miBkhqx5A'
@@ -46,8 +48,12 @@ if __name__ == '__main__':
     r = requests.get(url_base)
     j = json.loads(r.content)
     
+    # for debug in case you get 403'd
+    print(j)
+    
     count = 0
     
+    # iterate bish 
     while len(j['items']) ==50:
         print(j)
         for item in j['items']:
