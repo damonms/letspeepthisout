@@ -16,3 +16,6 @@ pip.exe install -r requirements.txt
 
 # Get you an API Key:
 https://developers.google.com/youtube/v3/getting-started
+
+## If you are extra nooby:
+https://blog.hubspot.com/website/how-to-get-youtube-api-key
