@@ -13,3 +13,6 @@ python -m venv venv
 .\venv\Scripts\activate.bat
 pip.exe install -r requirements.txt
 ```
+
+# Get you an API Key:
+https://developers.google.com/youtube/v3/getting-started
