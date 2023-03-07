@@ -1,9 +1,11 @@
 from youtube_transcript_api import YouTubeTranscriptApi
-from youtube_transcript_api._errors import TranscriptsDisabled
+from youtube_transcript_api._errors import TranscriptsDisabled, NoTranscriptFound
 import requests
 import json 
 import os
 import re
+
+
 API_KEY=os.environ['API_KEY_PEEP']
 CHANNEL_ID='UC8MbwfzshpM4T4miBkhqx5A'
 PAGE_TOKEN='CDIQAA'
@@ -30,6 +32,8 @@ def get_transcription(video_id):
         srt = YouTubeTranscriptApi.get_transcript(video_id)
     except TranscriptsDisabled as fuckme:
         return ""
+    except NoTranscriptFound as fuckemeharder:
+        return""
     s = ""
     for line in srt:    
         s+= " "+ line['text'].replace('\n',' ')
@@ -47,9 +51,13 @@ if __name__ == '__main__':
     while len(j['items']) ==50:
         print(j)
         for item in j['items']:
-            s = get_transcription(item['id']['videoId'])
-            with open(re.sub(r'[^a-zA-Z0-9]', '', (item['snippet']['title']))+'.txt', 'w') as f:
-                f.write(s)
+            vid_name = re.sub(r'[^a-zA-Z0-9]', '', (item['snippet']['title']))+'.txt'
+            # This is a shitty check to see if the file exits, if it does we assume it hasn't changed and skip it
+            if not os.path.exists(re.sub(r'[^a-zA-Z0-9]', '', (item['snippet']['title']))+'.txt'):
+                s = get_transcription(item['id']['videoId'])
+                with open(re.sub(r'[^a-zA-Z0-9]', '', (item['snippet']['title']))+'.txt', 'w') as f:
+                    f.write(s)
+
         print('DONE WITH PAGE %d' % count)
         count+=1
 
